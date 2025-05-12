@@ -8,8 +8,12 @@ use itertools::Itertools;
 use my_proc_macros::hex;
 use once_cell::sync::OnceCell;
 use strum::IntoEnumIterator as _;
+use theme_descriptor::ThemeDescriptor;
 pub(crate) use vscode_dark::vscode_dark;
 pub(crate) use vscode_light::vscode_light;
+const ZED_THEME_CATPPUCCIN_URL: &str =
+"https://raw.githubusercontent.com/catppuccin/zed/main/themes/catppuccin-mauve.json";
+
 
 use crate::{env::parse_env, grid::StyleKey, style::Style};
 
@@ -117,12 +121,13 @@ impl Theme {
 
 impl Default for Theme {
     fn default() -> Self {
-        let default_theme_descriptor = parse_env(
-            "KI_EDITOR_THEME",
-            &theme_descriptor::all(),
-            |theme| theme.name(),
-            theme_descriptor::ThemeDescriptor::default(),
-        );
+        // let default_theme_descriptor = parse_env(
+        //     "KI_EDITOR_THEME",
+        //     &theme_descriptor::all(),
+        //     |theme| theme.name(),
+        //     theme_descriptor::ThemeDescriptor::default(),
+        // );
+        let default_theme_descriptor = ThemeDescriptor::ZedThemeURLMap("Catppuccin Mocha", ZED_THEME_CATPPUCCIN_URL);
 
         default_theme_descriptor.to_theme()
     }

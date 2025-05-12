@@ -131,14 +131,18 @@ pub(crate) fn from_url(name: &'static str, url: &'static str) -> anyhow::Result<
 }
 
 fn from_theme_content(theme: ThemeContent) -> Theme {
-    let background = theme
-        .style
-        .editor_background
-        .and_then(|hex| Color::from_hex(&hex).ok())
-        .unwrap_or_else(|| match theme.appearance {
+    let background = match theme.appearance {
             AppearanceContent::Light => hex!("#ffffff"),
             AppearanceContent::Dark => hex!("#000000"),
-        });
+        };
+    // let background = theme
+    //     .style
+    //     .editor_background
+    //     .and_then(|hex| Color::from_hex(&hex).ok())
+    //     .unwrap_or_else(|| match theme.appearance {
+    //         AppearanceContent::Light => hex!("#ffffff"),
+    //         AppearanceContent::Dark => hex!("#000000"),
+    //     });
     let from_hex =
         |hex: &str| -> anyhow::Result<_> { Ok(Color::from_hex(hex)?.apply_alpha(background)) };
     let from_some_hex = |hex: Option<String>| {
