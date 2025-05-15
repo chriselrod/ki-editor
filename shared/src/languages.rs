@@ -143,7 +143,7 @@ const fn cpp() -> Language {
         ],
         formatter_command: Some(Command("clang-format", &[])),
         lsp_command: Some(LspCommand {
-            command: Command("clangd", &[]),
+            command: Command("clangd", &["--log=error", "--experimental-modules-support", "--clang-tidy", "-j=8", "--malloc-trim", "--background-index", "--background-index-priority=background", "--rename-file-limit=0"]),
             ..LspCommand::default()
         }),
         lsp_language_id: Some(LanguageId::new("cpp")),
